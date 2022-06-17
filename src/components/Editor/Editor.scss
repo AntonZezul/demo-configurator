@@ -1,0 +1,18 @@
+.editor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1b2430;
+  flex-direction: column;
+  .editor__title {
+    font-family: monospace;
+    font-size: 3.2rem;
+    color: #f9f2ed;
+  }
+  .editor__workspace {
+    width: 55rem;
+    height: 55rem;
+    background-color: #f9f2ed;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  }
+}
