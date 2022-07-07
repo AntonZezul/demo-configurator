@@ -1,23 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { fabric } from 'fabric';
 import './Editor.scss';
+import MainContext from '../../context/MainContext';
 
 export default function Editor() {
-  const [canvas, setCanvas] = useState('');
+  // const [canvas, setCanvas] = useState('');
   const [imgURL, setImgURL] = useState('');
+  const { setCanvas, getCanvas } = useContext(MainContext);
 
   const initCanvas = () =>
     new fabric.Canvas('canvas', {
-      height: 550,
-      width: 550,
+      height: 512,
+      width: 512,
       backgroundColor: 'pink',
     });
 
+  const selection = (canvas, rect) => {
+    const select = new fabric.ActiveSelection([rect], {
+      canvas: canvas,
+    });
+    // console.log(canvas.getActiveObject(select));
+    canvas.setActiveObject(select);
+  };
+
+  const addText = (canvi) => {
+    const text = new fabric.IText('Three.js\n', {
+      fontSize: 40,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      left: 128,
+      top: 128,
+      originX: 'center',
+      originY: 'center',
+      shadow: 'blue -5px 6px 5px',
+    });
+    canvi.add(text);
+  };
+
   const addRect = (canvi) => {
     const rect = new fabric.Rect({
-      height: 100,
+      top: 100,
+      left: 100,
+      fill: '#FF6E27',
       width: 100,
-      fill: 'red',
+      height: 100,
+      transparentCorners: false,
+      centeredScaling: true,
+      borderColor: 'black',
+      cornerColor: 'black',
+      corcerStrokeColor: 'black',
     });
     canvi.add(rect);
     canvi.renderAll();
@@ -34,7 +65,8 @@ export default function Editor() {
 
   useEffect(() => {
     setCanvas((prev) => (!prev ? initCanvas() : prev));
-  }, []);
+    getCanvas() && addRect(getCanvas());
+  }, [getCanvas]);
 
   return (
     <div className='editor'>
@@ -42,14 +74,11 @@ export default function Editor() {
       <div className='editor__workspace'>
         <canvas id='canvas' />
       </div>
-      <button onClick={() => addRect(canvas)}>Rectangle</button>
-      <form onSubmit={(e) => addImg(e, imgURL, canvas)}>
+      <button onClick={() => addRect(getCanvas())}>Rectangle</button>
+      <button onClick={() => addText(getCanvas())}>Add Text</button>
+      <form onSubmit={(e) => addImg(e, imgURL, getCanvas())}>
         <div>
-          <input
-            type='text'
-            value={imgURL}
-            onChange={(e) => setImgURL(e.target.value)}
-          />
+          <input type='text' value={imgURL} onChange={(e) => setImgURL(e.target.value)} />
           <button type='submit'>Add Image</button>
         </div>
       </form>
