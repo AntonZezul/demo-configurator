@@ -1,10 +1,12 @@
 import { OrbitControls } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
+import MainContext from '../../context/MainContext';
 
-export default function SceneDefaults({ children, setState }) {
+export default function SceneDefaults({ children, setState, isOrbit }) {
   const { scene, camera, raycaster, mouse, pointer } = useThree();
   const [threeState, setThreeState] = useState({});
+  const context = useContext(MainContext);
 
   useEffect(() => {
     setThreeState({
@@ -16,6 +18,10 @@ export default function SceneDefaults({ children, setState }) {
     });
     setState(threeState);
   }, [camera, mouse, pointer, raycaster, scene, setState, threeState]);
+
+  useEffect(() => {
+    console.log(isOrbit);
+  }, [isOrbit]);
   return (
     <Suspense fallback={null}>
       <ambientLight intensity={0.3} />
@@ -42,7 +48,8 @@ export default function SceneDefaults({ children, setState }) {
         </mesh> */}
         {children}
       </group>
-      <OrbitControls minDistance={3} maxDistance={7} />
+
+      {!isOrbit && <OrbitControls minDistance={3} maxDistance={7} />}
     </Suspense>
   );
 }

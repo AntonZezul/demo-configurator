@@ -12,6 +12,7 @@ softShadows();
 export default function Scene() {
   const [canvasState, setCanvasState] = useState('');
   const [threeState, setThreeState] = useState({});
+  const [isOrbit, setIsOrbit] = useState(true);
   const { getCanvas } = useContext(MainContext);
   const { scene, camera, raycaster, mouse, pointer } = threeState;
 
@@ -55,6 +56,49 @@ export default function Scene() {
     inArea ? canvas.setActiveObject(canvas._objects[0]) : canvas.discardActiveObject();
   };
 
+  const moveObject = (object, uv) => {
+    if (object) {
+      console.log(uv);
+      object.left = uv.x * 512 - 50;
+      object.top = uv.y * 512 - 50;
+    }
+  };
+
+  const getPositionOnScene = (e) => {
+    console.log(e);
+    console.log(scene);
+    var array = getMousePosition(canvasState, e.clientX, e.clientY);
+    pointer.fromArray(array);
+    var intersects = getIntersects(pointer, scene.children);
+    if (intersects.length > 0 && intersects[0].uv) {
+      var uv = intersects[0].uv;
+      intersects[0].object.material.map.transformUv(uv);
+      return {
+        x: getRealPosition('x', uv.x),
+        y: getRealPosition('y', uv.y),
+      };
+    }
+    return null;
+  };
+
+  const onMouseEvt = (e, canvas) => {
+    e.preventDefault();
+    const positionOnScene = getPositionOnScene(e);
+    console.log(positionOnScene);
+    if (positionOnScene) {
+      const canvasRect = canvas._offset;
+      const simEvt = new MouseEvent(e.type, {
+        clientX: canvasRect.left + positionOnScene.x,
+        clientY: canvasRect.top + positionOnScene.y,
+      });
+
+      console.log(simEvt);
+
+      // console.log(canvas._objects[0]);
+      canvas.upperCanvasEl.dispatchEvent(simEvt);
+    }
+  };
+
   const onMouseClick = (e, canvas) => {
     e.preventDefault();
     const array = getMousePosition(canvasState, e.clientX, e.clientY);
@@ -73,27 +117,39 @@ export default function Scene() {
       canvas?.add(circle);
       canvas?.remove(circle);
 
-      console.log(intersects);
       setActiveObject(canvas, uv);
     }
   };
+
+  const onMouseMove = (e, canvas) => {
+    e.preventDefault();
+    const array = getMousePosition(canvasState, e.clientX, e.clientY);
+    pointer.fromArray(array);
+    const intersects = getIntersects(pointer, scene.children);
+    if (intersects.length > 0 && intersects[0].uv) {
+      const uv = intersects[0].uv;
+      intersects[0]?.object?.material?.map?.transformUv(uv);
+
+      moveObject(canvas?.getActiveObject(), uv);
+    }
+  };
+  useEffect(() => {
+    setIsOrbit(getCanvas()?.getActiveObject());
+  });
+
+  const onMouseUp = (e, canvas) => {};
 
   return (
     <div className='scene'>
       <p className='scene__title'>Canvas</p>
       <div className='scene__canvas'>
         <Canvas
-          onMouseDown={(e) => onMouseClick(e, getCanvas())}
+          onMouseDown={(e) => onMouseEvt(e, getCanvas())}
+          // onMouseMove={(e) => onMouseMove(e, getCanvas())}
           shadows
           linear
           camera={{ position: [-2, 2, 5], fov: 40 }}>
-          <SceneDefaults setState={setThreeState}>
-            {/* <Cylinder
-              rotation={[-45, 90, 0]}
-              position={[0, 0.5, 0]}
-              color='pink'
-              canvas={canvasState}
-            /> */}
+          <SceneDefaults isOrbit={isOrbit} setState={setThreeState}>
             <Box rotation={[0, 0, 0]} position={[0, 0.5, 0]} color='pink' canvas={getCanvas()?.getElement()} />
           </SceneDefaults>
         </Canvas>
