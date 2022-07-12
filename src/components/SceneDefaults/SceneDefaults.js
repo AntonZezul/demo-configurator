@@ -20,7 +20,7 @@ export default function SceneDefaults({ children, setState, isOrbit }) {
   }, [camera, mouse, pointer, raycaster, scene, setState, threeState]);
 
   useEffect(() => {
-    console.log(isOrbit);
+    // console.log(isOrbit);
   }, [isOrbit]);
   return (
     <Suspense fallback={null}>

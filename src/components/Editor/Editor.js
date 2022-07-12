@@ -74,14 +74,16 @@ export default function Editor() {
       <div className='editor__workspace'>
         <canvas id='canvas' />
       </div>
-      <button onClick={() => addRect(getCanvas())}>Rectangle</button>
-      <button onClick={() => addText(getCanvas())}>Add Text</button>
-      <form onSubmit={(e) => addImg(e, imgURL, getCanvas())}>
-        <div>
-          <input type='text' value={imgURL} onChange={(e) => setImgURL(e.target.value)} />
-          <button type='submit'>Add Image</button>
-        </div>
-      </form>
+      <div className='editor__actions'>
+        <button onClick={() => addRect(getCanvas())}>Rectangle</button>
+        <button onClick={() => addText(getCanvas())}>Add Text</button>
+        <form onSubmit={(e) => addImg(e, imgURL, getCanvas())}>
+          <div>
+            <input type='text' value={imgURL} onChange={(e) => setImgURL(e.target.value)} />
+            <button type='submit'>Add Image</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@
   justify-content: center;
   background-color: #1b2430;
   flex-direction: column;
+  position: relative;
   .editor__title {
     font-family: monospace;
     font-size: 3.2rem;
@@ -14,5 +15,13 @@
     height: 51.2rem;
     background-color: #f9f2ed;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  }
+  .editor__actions {
+    position: absolute;
+    left: 50%;
+    bottom: 10rem;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
   }
 }
