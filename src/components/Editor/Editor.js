@@ -8,12 +8,14 @@ export default function Editor() {
   const [imgURL, setImgURL] = useState('');
   const { setCanvas, getCanvas } = useContext(MainContext);
 
-  const initCanvas = () =>
-    new fabric.Canvas('canvas', {
+  const initCanvas = () => {
+    return new fabric.Canvas('canvas', {
       height: 512,
       width: 512,
       backgroundColor: 'pink',
+      selection: false,
     });
+  };
 
   const selection = (canvas, rect) => {
     const select = new fabric.ActiveSelection([rect], {
