@@ -12,8 +12,30 @@ export default function usePatch(threeState) {
     setCanvasState(canvas);
   }, []);
 
+  const onMouseEvent = (e, canvas) => {
+    const positionOnScene = getPositionOnScene(e);
+    if (positionOnScene) {
+      // const face = positionOnScene.face;
+      const canvasRect = canvas._offset;
+      const simEvt = new MouseEvent(e.type, {
+        clientX: canvasRect.left + positionOnScene.x,
+        clientY: canvasRect.top + positionOnScene.y,
+      });
+      canvas.upperCanvasEl.dispatchEvent(simEvt);
+      // return face;
+    }
+  };
+
+  const onMouseMove = (e) => {
+    const positionOnScene = getPositionOnScene(e);
+    if (positionOnScene) {
+      const face = positionOnScene.face;
+      return face;
+    }
+  };
+
   const getMousePosition = (dom, x, y) => {
-    const rect = dom.getBoundingClientRect();
+    const rect = dom?.getBoundingClientRect();
     return [(x - rect.left) / rect.width, (y - rect.top) / rect.height];
   };
 
@@ -34,7 +56,7 @@ export default function usePatch(threeState) {
     const intersects = getIntersects(threeState.pointer, threeState.scene.children);
     if (intersects.length > 0 && intersects[0].uv) {
       const uv = intersects[0].uv;
-      intersects[0].object.material.map.transformUv(uv);
+      intersects[0]?.object.material.map?.transformUv(uv);
       return {
         x: getRealPosition('x', uv.x),
         y: getRealPosition('y', uv.y),
@@ -46,15 +68,17 @@ export default function usePatch(threeState) {
 
   const getPositionOnScene = (e) => {
     const array = getMousePosition(canvasState, e.clientX, e.clientY);
-    threeState.pointer.fromArray(array);
-    const intersects = getIntersects(threeState.pointer, threeState.scene.children);
+    threeState.pointer?.fromArray(array);
+    const intersects = getIntersects(threeState.pointer, threeState.scene?.children);
+    // console.log(intersects);
     if (intersects.length > 0 && intersects[0].uv) {
       const uv = intersects[0].uv;
-      intersects[0].object.material.map.transformUv(uv);
+      intersects[0]?.object?.material?.forEach((item) => item?.map?.transformUv(uv));
       return {
         x: getRealPosition('x', uv.x),
         y: getRealPosition('y', uv.y),
         uv,
+        face: intersects[0]?.face.materialIndex,
       };
     }
     return null;
@@ -144,6 +168,7 @@ export default function usePatch(threeState) {
     };
   };
   return {
-    getPositionOnScene,
+    onMouseEvent,
+    onMouseMove,
   };
 }
