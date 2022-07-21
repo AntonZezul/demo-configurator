@@ -12,7 +12,7 @@ export default function Editor() {
     return new fabric.Canvas('canvas', {
       height: 512,
       width: 512,
-      backgroundColor: 'pink',
+      backgroundColor: '#777',
       selection: false,
     });
   };

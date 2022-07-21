@@ -4,10 +4,12 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import { BackSide, CanvasTexture, DoubleSide } from 'three';
 
-const Box = ({ position, color = 'lightblue', args = [1, 1, 1], rotation, canvas, face }) => {
+const Box = ({ position, color = 'lightblue', args = [1, 1, 1], rotation, canvas, onMouseMove }) => {
   const mesh = useRef(null);
+  const defaultColor = '#777';
   const colorMap = new CanvasTexture(canvas);
   const defaultTexture = useTexture('images/exterior-1.jpg');
+  const [face, setFace] = useState(1);
   const mapArr = [
     { id: 0, active: false },
     { id: 1, active: true },
@@ -16,20 +18,20 @@ const Box = ({ position, color = 'lightblue', args = [1, 1, 1], rotation, canvas
     { id: 4, active: false },
     { id: 5, active: false },
   ];
-  const [count, setCount] = useState(0);
 
   useFrame(() => {
     colorMap.needsUpdate = true;
   });
 
   useEffect(() => {
-    console.log(face);
-    console.log(count);
-  }, [count, face]);
+    mapArr.forEach((item) => (item.active = false));
+    mapArr[face].active = true;
+    console.log(mapArr);
+  }, [face]);
 
   return (
     <a.mesh
-      onClick={() => setCount((prev) => prev + 1)}
+      onPointerMove={(e) => setFace(onMouseMove(e))}
       scale={[1, 1, 1]}
       // castShadow
       rotation={rotation}
@@ -41,10 +43,11 @@ const Box = ({ position, color = 'lightblue', args = [1, 1, 1], rotation, canvas
           key={texture.id}
           attach={`material-${texture.id}`}
           name={texture.id}
-          color={texture.id === face ? color : ''}
+          color={texture.id === face ? color : defaultColor}
           map={texture.id === face ? colorMap : null}
           metalness={0.25}
           roughness={0.25}
+          // visible={texture.id === face}
         />
       ))}
       {/* <meshStandardMaterial

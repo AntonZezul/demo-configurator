@@ -21,10 +21,10 @@ export default function Scene() {
     onMouseEvent(e, canvas);
   };
 
-  const onMouseMoveScene = (e) => {
-    e.preventDefault();
-    setFace(onMouseMove(e));
-  };
+  // const onMouseMoveScene = (e) => {
+  //   e.preventDefault();
+  //   setFace(onMouseMove(e));
+  // };
   useEffect(() => {
     setIsOrbit(getCanvas()?.getActiveObject());
   });
@@ -35,17 +35,17 @@ export default function Scene() {
       <div className='scene__canvas'>
         <Canvas
           onMouseDown={(e) => onMouseEvt(e, getCanvas())}
-          onMouseMove={onMouseMoveScene}
+          // onMouseMove={onMouseMoveScene}
           shadows
           linear
           camera={{ position: [-2, 2, 5], fov: 40 }}>
           <SceneDefaults isOrbit={isOrbit} setState={setThreeState}>
             <Box
-              face={face}
               rotation={[0, 0, 0]}
               position={[0, 0.5, 0]}
               color='pink'
               canvas={getCanvas()?.getElement()}
+              onMouseMove={onMouseMove}
             />
           </SceneDefaults>
         </Canvas>
