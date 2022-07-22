@@ -6,6 +6,7 @@ import SceneDefaults from '../SceneDefaults/SceneDefaults';
 import Box from '../Box/Box';
 import MainContext from '../../context/MainContext';
 import usePatch from '../../hooks/usePatch';
+import ObjectModel from '../Object/ObjectModel';
 
 softShadows();
 
@@ -34,19 +35,20 @@ export default function Scene() {
       <p className='scene__title'>Canvas</p>
       <div className='scene__canvas'>
         <Canvas
+          id='lol'
           onMouseDown={(e) => onMouseEvt(e, getCanvas())}
           // onMouseMove={onMouseMoveScene}
           shadows
           linear
-          camera={{ position: [-2, 2, 5], fov: 40 }}>
+          camera={{ position: [0, 0, 5], fov: 5 }}>
           <SceneDefaults isOrbit={isOrbit} setState={setThreeState}>
-            <Box
+            <ObjectModel position={[0, -0.5, 0]} />
+            {/* <Box
               rotation={[0, 0, 0]}
               position={[0, 0.5, 0]}
               color='pink'
               canvas={getCanvas()?.getElement()}
-              onMouseMove={onMouseMove}
-            />
+            /> */}
           </SceneDefaults>
         </Canvas>
       </div>

@@ -30,7 +30,7 @@ export default function SceneDefaults({ children, setState, isOrbit }) {
       <pointLight position={[-3, 0, 2]} intensity={1.5} />
 
       <group>{children}</group>
-      {!isOrbit && <OrbitControls minDistance={3} maxDistance={7} />}
+      {!isOrbit && <OrbitControls minDistance={3} maxDistance={5} />}
     </Suspense>
   );
 }

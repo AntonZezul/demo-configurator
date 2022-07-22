@@ -12,7 +12,7 @@ export default function Editor() {
     return new fabric.Canvas('canvas', {
       height: 512,
       width: 512,
-      backgroundColor: '#777',
+      backgroundColor: 'pink',
       selection: false,
     });
   };
@@ -68,7 +68,17 @@ export default function Editor() {
   useEffect(() => {
     setCanvas((prev) => (!prev ? initCanvas() : prev));
     getCanvas() && addRect(getCanvas());
-  }, [getCanvas]);
+    const svgImage = new Image();
+    svgImage.src = '/assets/textures/texture.svg';
+    svgImage.width = 20;
+    svgImage.height = 20;
+    console.log(svgImage);
+    svgImage.onload = function () {
+      getCanvas()?.upperCanvasEl.getContext('2d').drawImage(svgImage, 10, -20);
+      // getCanvas()?.getElement().get.drawImage(svgImage, 0, 0)
+    };
+    // svgImage.onload(() => {});
+  }, [getCanvas, setCanvas]);
 
   return (
     <div className='editor'>

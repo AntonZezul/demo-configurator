@@ -9,7 +9,7 @@ const Box = ({ position, color = 'lightblue', args = [1, 1, 1], rotation, canvas
   const defaultColor = '#777';
   const colorMap = new CanvasTexture(canvas);
   const defaultTexture = useTexture('images/exterior-1.jpg');
-  const [face, setFace] = useState(1);
+  // const [face, setFace] = useState(1);
   const mapArr = [
     { id: 0, active: false },
     { id: 1, active: true },
@@ -19,26 +19,27 @@ const Box = ({ position, color = 'lightblue', args = [1, 1, 1], rotation, canvas
     { id: 5, active: false },
   ];
 
-  useFrame(() => {
-    colorMap.needsUpdate = true;
-  });
+  // useFrame(() => {
+  //   colorMap.needsUpdate = true;
+  // });
 
-  useEffect(() => {
-    mapArr.forEach((item) => (item.active = false));
-    mapArr[face].active = true;
-    console.log(mapArr);
-  }, [face]);
+  // useEffect(() => {
+  //   mapArr.forEach((item) => (item.active = false));
+  //   mapArr[face].active = true;
+  //   console.log(mapArr);
+  // }, [face]);
 
   return (
     <a.mesh
-      onPointerMove={(e) => setFace(onMouseMove(e))}
+      // onPointerMove={(e) => setFace(onMouseMove(e))}
       scale={[1, 1, 1]}
       // castShadow
       rotation={rotation}
       position={position}
       ref={mesh}>
       <boxBufferGeometry attach='geometry' args={args} />
-      {mapArr.map((texture) => (
+      <meshStandardMaterial attach='material' color={color} map={colorMap} metalness={0.25} roughness={0.25} />
+      {/* {mapArr.map((texture) => (
         <meshStandardMaterial
           key={texture.id}
           attach={`material-${texture.id}`}
@@ -49,16 +50,9 @@ const Box = ({ position, color = 'lightblue', args = [1, 1, 1], rotation, canvas
           roughness={0.25}
           // visible={texture.id === face}
         />
-      ))}
+      ))} */}
+
       {/* <meshStandardMaterial
-        attach='material-0'
-        name='0'
-        // color={color}
-        // map={colorMap}
-        metalness={0.25}
-        roughness={0.25}
-      />
-      <meshStandardMaterial
         attach='material-1'
         name='1'
         color={color}
