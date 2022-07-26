@@ -73,7 +73,7 @@ export default function usePatch(threeState) {
     console.log(intersects);
     if (intersects.length > 0 && intersects[0].uv) {
       const uv = intersects[0].uv;
-      intersects[0]?.object.material.map?.transformUv(uv);
+      intersects[0]?.object.material[0].map?.transformUv(uv);
       // intersects[0]?.object?.material?.forEach((item) => item?.map?.transformUv(uv));
       return {
         x: getRealPosition('x', uv.x),

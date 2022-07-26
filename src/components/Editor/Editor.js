@@ -4,7 +4,6 @@ import './Editor.scss';
 import MainContext from '../../context/MainContext';
 
 export default function Editor() {
-  // const [canvas, setCanvas] = useState('');
   const [imgURL, setImgURL] = useState('');
   const { setCanvas, getCanvas } = useContext(MainContext);
 
@@ -15,14 +14,6 @@ export default function Editor() {
       backgroundColor: 'pink',
       selection: false,
     });
-  };
-
-  const selection = (canvas, rect) => {
-    const select = new fabric.ActiveSelection([rect], {
-      canvas: canvas,
-    });
-    // console.log(canvas.getActiveObject(select));
-    canvas.setActiveObject(select);
   };
 
   const addText = (canvi) => {
@@ -44,8 +35,8 @@ export default function Editor() {
       top: 100,
       left: 100,
       fill: '#FF6E27',
-      width: 100,
-      height: 100,
+      width: 50,
+      height: 50,
       transparentCorners: false,
       centeredScaling: true,
       borderColor: 'black',
@@ -68,17 +59,17 @@ export default function Editor() {
   useEffect(() => {
     setCanvas((prev) => (!prev ? initCanvas() : prev));
     getCanvas() && addRect(getCanvas());
+  }, [getCanvas, setCanvas]);
+
+  useEffect(() => {
     const svgImage = new Image();
     svgImage.src = '/assets/textures/texture.svg';
-    svgImage.width = 20;
-    svgImage.height = 20;
-    console.log(svgImage);
     svgImage.onload = function () {
-      getCanvas()?.upperCanvasEl.getContext('2d').drawImage(svgImage, 10, -20);
-      // getCanvas()?.getElement().get.drawImage(svgImage, 0, 0)
+      if (getCanvas()) {
+        getCanvas().lowerCanvasEl.getContext('2d').drawImage(svgImage, 0, 0);
+      }
     };
-    // svgImage.onload(() => {});
-  }, [getCanvas, setCanvas]);
+  }, [getCanvas]);
 
   return (
     <div className='editor'>
