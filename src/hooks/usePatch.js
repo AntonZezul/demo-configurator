@@ -70,7 +70,7 @@ export default function usePatch(threeState) {
     const array = getMousePosition(canvasState, e.clientX, e.clientY);
     threeState.pointer?.fromArray(array);
     const intersects = getIntersects(threeState.pointer, threeState.scene?.children);
-    console.log(intersects);
+    // console.log(intersects);
     if (intersects.length > 0 && intersects[0].uv) {
       const uv = intersects[0].uv;
       intersects[0]?.object.material[0].map?.transformUv(uv);

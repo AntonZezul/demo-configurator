@@ -42,7 +42,7 @@ export default function Scene() {
           linear
           camera={{ position: [0, 0, 5], fov: 5 }}>
           <SceneDefaults isOrbit={isOrbit} setState={setThreeState}>
-            <ObjectModel position={[0, -0.5, 0]} canvas={getCanvas()?.lowerCanvasEl} /> 
+            <ObjectModel position={[0, -0.5, 0]} canvas={getCanvas()?.getElement()} />
             {/* <Box
               rotation={[0, 0, 0]}
               position={[0, 0.5, 0]}

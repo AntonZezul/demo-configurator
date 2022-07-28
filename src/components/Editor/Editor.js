@@ -33,7 +33,7 @@ export default function Editor() {
   const addRect = (canvi) => {
     const rect = new fabric.Rect({
       top: 100,
-      left: 100,
+      left: 50,
       fill: '#FF6E27',
       width: 50,
       height: 50,
@@ -46,30 +46,23 @@ export default function Editor() {
     canvi.add(rect);
     canvi.renderAll();
   };
-  const addImg = (e, url, canvi) => {
-    e.preventDefault();
-    new fabric.Image.fromURL(url, (img) => {
-      img.scale(0.75);
-      canvi.add(img);
-      canvi.renderAll();
-      setImgURL('');
-    });
-  };
 
-  useEffect(() => {
-    setCanvas((prev) => (!prev ? initCanvas() : prev));
-    getCanvas() && addRect(getCanvas());
-  }, [getCanvas, setCanvas]);
+  const addImg = (canvi, imgElement) => {
+    const imgInstance = new fabric.Image(imgElement, {
+      left: 0,
+      top: 0,
+      selectable: false,
+    });
+    canvi.add(imgInstance);
+  };
 
   useEffect(() => {
     const svgImage = new Image();
     svgImage.src = '/assets/textures/texture.svg';
-    svgImage.onload = function () {
-      if (getCanvas()) {
-        getCanvas().lowerCanvasEl.getContext('2d').drawImage(svgImage, 0, 0);
-      }
-    };
-  }, [getCanvas]);
+    setCanvas((prev) => (!prev ? initCanvas() : prev));
+    getCanvas() && addImg(getCanvas(), svgImage);
+    getCanvas() && addRect(getCanvas());
+  }, [getCanvas, setCanvas]);
 
   return (
     <div className='editor'>
