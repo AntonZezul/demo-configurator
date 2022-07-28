@@ -60,9 +60,16 @@ export default function Editor() {
     const svgImage = new Image();
     svgImage.src = '/assets/textures/texture.svg';
     setCanvas((prev) => (!prev ? initCanvas() : prev));
-    getCanvas() && addImg(getCanvas(), svgImage);
-    getCanvas() && addRect(getCanvas());
+    svgImage.onload = () => {
+      getCanvas() && addImg(getCanvas(), svgImage);
+      getCanvas() && addRect(getCanvas());
+    };
   }, [getCanvas, setCanvas]);
+
+  // useEffect(() => {
+  //   const svgImage = new Image();
+  //   svgImage.src = '/assets/textures/texture.svg';
+  // }, []);
 
   return (
     <div className='editor'>
