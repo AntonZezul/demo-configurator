@@ -9,8 +9,8 @@ export default function Editor() {
 
   const initCanvas = () => {
     return new fabric.Canvas('canvas', {
-      height: 512,
-      width: 512,
+      height: 1024,
+      width: 1024,
       backgroundColor: 'pink',
       selection: false,
     });
@@ -32,8 +32,8 @@ export default function Editor() {
 
   const addRect = (canvi) => {
     const rect = new fabric.Rect({
-      top: 100,
-      left: 50,
+      top: 850,
+      left: 580,
       fill: '#FF6E27',
       width: 50,
       height: 50,

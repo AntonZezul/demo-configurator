@@ -41,7 +41,7 @@ export default function usePatch(threeState) {
 
   const getRealPosition = (axis, value) => {
     const CORRECTION_VALUE = axis === 'x' ? 4.5 : 5.5;
-    return Math.round(value * 512) - CORRECTION_VALUE;
+    return Math.round(value * 1024) - CORRECTION_VALUE;
   };
 
   const getIntersects = (point, objects) => {
