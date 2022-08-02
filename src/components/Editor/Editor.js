@@ -66,11 +66,6 @@ export default function Editor() {
     };
   }, [getCanvas, setCanvas]);
 
-  // useEffect(() => {
-  //   const svgImage = new Image();
-  //   svgImage.src = '/assets/textures/texture.svg';
-  // }, []);
-
   return (
     <div className='editor'>
       <p className='editor__title'>Edit shape</p>

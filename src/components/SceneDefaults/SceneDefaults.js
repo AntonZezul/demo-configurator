@@ -20,11 +20,7 @@ export default function SceneDefaults({ children, setState, isOrbit }) {
   return (
     <Suspense fallback={null}>
       <ambientLight intensity={0.3} />
-      <directionalLight
-        // castShadow
-        position={[0, 10, 0]}
-        intensity={1.5}
-      />
+      <directionalLight position={[0, 10, 0]} intensity={1.5} />
       <pointLight position={[-10, 0, -20]} intensity={0.5} />
       <pointLight position={[0, -10, 0]} intensity={1.5} />
       <pointLight position={[-3, 0, 2]} intensity={1.5} />

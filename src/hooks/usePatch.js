@@ -15,22 +15,12 @@ export default function usePatch(threeState) {
   const onMouseEvent = (e, canvas) => {
     const positionOnScene = getPositionOnScene(e);
     if (positionOnScene) {
-      // const face = positionOnScene.face;
       const canvasRect = canvas._offset;
       const simEvt = new MouseEvent(e.type, {
         clientX: canvasRect.left + positionOnScene.x,
         clientY: canvasRect.top + positionOnScene.y,
       });
       canvas.upperCanvasEl.dispatchEvent(simEvt);
-      // return face;
-    }
-  };
-
-  const onMouseMove = (e) => {
-    const positionOnScene = getPositionOnScene(e);
-    if (positionOnScene) {
-      const face = positionOnScene.face;
-      return face;
     }
   };
 
@@ -70,16 +60,13 @@ export default function usePatch(threeState) {
     const array = getMousePosition(canvasState, e.clientX, e.clientY);
     threeState.pointer?.fromArray(array);
     const intersects = getIntersects(threeState.pointer, threeState.scene?.children);
-    // console.log(intersects);
     if (intersects.length > 0 && intersects[0].uv) {
       const uv = intersects[0].uv;
       intersects[0]?.object.material[0].map?.transformUv(uv);
-      // intersects[0]?.object?.material?.forEach((item) => item?.map?.transformUv(uv));
       return {
         x: getRealPosition('x', uv.x),
         y: getRealPosition('y', uv.y),
         uv,
-        // face: intersects[0]?.face.materialIndex,
       };
     }
     return null;
@@ -170,6 +157,5 @@ export default function usePatch(threeState) {
   };
   return {
     onMouseEvent,
-    onMouseMove,
   };
 }
